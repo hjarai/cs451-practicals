@@ -83,20 +83,79 @@ f = DecisionTreeClassifier(
 )  # type:ignore
 
 # train the tree!
-f.fit(train_X, train_y)
+#f.fit(train_X, train_y)
 
 # did it memorize OK?
-print("Score on Training: {:.3f}".format(f.score(train_X, train_y)))
-print("Score on Testing: {:.3f}".format(f.score(test_X, test_y)))
+#print("Score on Training: {:.3f}".format(f.score(train_X, train_y)))
+#print("Score on Testing: {:.3f}".format(f.score(test_X, test_y)))
 
 ## Actual 'practical' assignment.
-TODO(
-    "1. Figure out what all of the parameters I listed for the DecisionTreeClassifier do."
-)
+# 1. Figure out what all of the parameters I listed for the DecisionTreeClassifier do.
+# splitter: either “best” or “random” feature (and threshold) is picked to split
+# max_features: number of features to consider to decide best split, n_features if None
+# criterion: evaluates the feature importance, the quality of the split is measured by 
+#            either the Gini impurity("gini") or information gain "entropy"
+# max_depth: integer maximum depth of the tree, the default none means split until becomes all leaves
+# random_state: int used to fix randomness of estimator to obtain deterministic random behavior
+
 # Consult the documentation: https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html
-TODO("2. Pick one parameter, vary it, and find some version of the 'best' setting.")
+#TODO("2. Pick one parameter, vary it, and find some version of the 'best' setting.")
 # Default performance:
 # There are 2079 training examples and 693 testing examples.
 # Score on Training: 1.000
 # Score on Testing: 0.889
-TODO("3. Leave clear code for running your experiment!")
+#ODO("3. Leave clear code for running your experiment!")
+
+# Create a regression-tree object:
+
+# checking from 1-26
+# for i in range(1,27,5):
+#   g = DecisionTreeClassifier(
+#       splitter="best",
+#       max_features=None,
+#       criterion="gini",
+#       max_depth=i,
+#       random_state=13,
+#   )  # type:ignore
+
+#   # train the tree!
+#   g.fit(train_X, train_y)
+
+#   # did it memorize OK?
+#   print("Score on Training when max_depth = {}: {:.3f}".format(i, g.score(train_X, train_y)))
+#   print("Score on Testing when max_depth = {}: {:.3f}\n".format(i, g.score(test_X, test_y)))
+
+  #checking 6-11 since that seems to be highest for training & testing
+
+# for i in range(4,8):
+#   g = DecisionTreeClassifier(
+#       splitter="best",
+#       max_features=None,
+#       criterion="gini",
+#       max_depth=i,
+#       random_state=13,
+#   )  # type:ignore
+
+#   # train the tree!
+#   g.fit(train_X, train_y)
+
+#   # did it memorize OK?
+#   print("Score on Training when max_depth = {}: {:.3f}".format(i, g.score(train_X, train_y)))
+#   print("Score on Testing when max_depth = {}: {:.3f}\n".format(i, g.score(test_X, test_y)))
+
+
+#best integer for max_depth = 6;
+g = DecisionTreeClassifier(
+    splitter="best",
+    max_features=None,
+    criterion="gini",
+    max_depth=6,
+    random_state=13,
+)  # type:ignore
+
+# train the tree!
+g.fit(train_X, train_y)
+
+# did it memorize OK?
+print("Score on Training when max_depth = {}: {:.3f}".format(i, g.score(train_X, train_y)))
+print("Score on Testing when max_depth = {}: {:.3f}\n".format(i, g.score(test_X, test_y)))
