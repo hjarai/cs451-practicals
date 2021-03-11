@@ -86,43 +86,78 @@ N_MODELS = 100
 # sample 1 of them 100 times, to get a distribution of data for that!
 N_SAMPLES = 100
 
-seed_based_accuracies = []
-for randomness in range(N_MODELS):
-    f_seed = DecisionTreeClassifier(random_state=RANDOM_SEED + randomness, **params)
-    f_seed.fit(X_train, y_train)
-    seed_based_accuracies.append(f_seed.score(X_vali, y_vali))
+# seed_based_accuracies = []
+# for randomness in range(N_MODELS):
+#     f_seed = DecisionTreeClassifier(random_state=RANDOM_SEED + randomness, **params)
+#     f_seed.fit(X_train, y_train)
+#     seed_based_accuracies.append(f_seed.score(X_vali, y_vali))
 
 
-bootstrap_based_accuracies = []
-# single seed, bootstrap-sampling of predictions:
-f_single = DecisionTreeClassifier(random_state=RANDOM_SEED, **params)
-f_single.fit(X_train, y_train)
-y_pred = f_single.predict(X_vali)
+# bootstrap_based_accuracies = []
+# # single seed, bootstrap-sampling of predictions:
+# f_single = DecisionTreeClassifier(random_state=RANDOM_SEED, **params)
+# f_single.fit(X_train, y_train)
+# y_pred = f_single.predict(X_vali)
 
-# do the bootstrap:
-for trial in range(N_SAMPLES):
-    sample_pred, sample_truth = resample(
-        y_pred, y_vali, random_state=trial + RANDOM_SEED
-    )
-    score = accuracy_score(y_true=sample_truth, y_pred=sample_pred)
-    bootstrap_based_accuracies.append(score)
+# # do the bootstrap:
+# for trial in range(N_SAMPLES):
+#     sample_pred, sample_truth = resample(
+#         y_pred, y_vali, random_state=trial + RANDOM_SEED
+#     )
+#     score = accuracy_score(y_true=sample_truth, y_pred=sample_pred)
+#     bootstrap_based_accuracies.append(score)
 
 
-boxplot_data: List[List[float]] = [seed_based_accuracies, bootstrap_based_accuracies]
-plt.boxplot(boxplot_data)
-plt.xticks(ticks=[1, 2], labels=["Seed-Based", "Bootstrap-Based"])
-plt.xlabel("Sampling Method")
-plt.ylabel("Accuracy")
-plt.ylim([0.8, 1.0])
-plt.show()
+# boxplot_data: List[List[float]] = [seed_based_accuracies, bootstrap_based_accuracies]
+# plt.boxplot(boxplot_data)
+# plt.xticks(ticks=[1, 2], labels=["Seed-Based", "Bootstrap-Based"])
+# plt.xlabel("Sampling Method")
+# plt.ylabel("Accuracy")
+# plt.ylim([0.8, 1.0])
+# plt.show()
 # if plt.show is not working, try opening the result of plt.savefig instead!
 # plt.savefig("dtree-variance.png") # This doesn't work well on repl.it.
 
-TODO("1. understand/compare the bounds generated between the two methods.")
-TODO("2. Do one of the two following experiments.")
-TODO(
-    "2A. Evaluation++: what happens to the variance if we do K bootstrap samples for each of M models?"
-)
-TODO(
-    "2B. Return to experimenting on the decision tree: modify the plot to show ~10 max_depths of the decision tree."
-)
+#TODO("1. understand/compare the bounds generated between the two methods.")
+#TODO("2. Do one of the two following experiments.")
+#TODO("2A. Evaluation++: what happens to the variance if we do K bootstrap samples for each of M models?")
+# TODO("2B. Return to experimenting on the decision tree: modify the plot to show ~10 max_depths of the decision tree.")
+
+bootstrap_based_accuracies_depth = []
+
+for i in range(1,10):
+  params = {
+    "criterion": "gini",
+    "splitter": "best",
+    "max_depth": i,
+  } 
+  bootstrap_based_accuracies_depth.append([])
+
+  # seed_based_accuracies = []
+  # for randomness in range(N_MODELS):
+  #     f_seed = DecisionTreeClassifier(random_state=RANDOM_SEED + randomness, **params)
+  #     f_seed.fit(X_train, y_train)
+  #     seed_based_accuracies.append(f_seed.score(X_vali, y_vali))
+
+
+  # single seed, bootstrap-sampling of predictions:
+  f_single = DecisionTreeClassifier(random_state=RANDOM_SEED, **params)
+  f_single.fit(X_train, y_train)
+  y_pred = f_single.predict(X_vali)
+
+  # do the bootstrap:
+  for trial in range(N_SAMPLES):
+      sample_pred, sample_truth = resample(
+          y_pred, y_vali, random_state=trial + RANDOM_SEED
+      )
+      score = accuracy_score(y_true=sample_truth, y_pred=sample_pred)
+      bootstrap_based_accuracies_depth[i-1].append(score)
+
+
+boxplot_data: List[List[float]] = bootstrap_based_accuracies_depth
+plt.boxplot(boxplot_data)
+# plt.xticks(ticks=[1, 2], labels=["Seed-Based", "Bootstrap-Based"])
+plt.xlabel("Sampling Method")
+plt.ylabel("Accuracy")
+plt.ylim([0.6, 1.0])
+plt.show()
