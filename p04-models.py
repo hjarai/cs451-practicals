@@ -125,17 +125,19 @@ def consider_logistic_regression() -> ExperimentResult:
     print("Consider Logistic Regression.")
     performances: List[ExperimentResult] = []
     for rnd in range(3):
-        params = {
-            "random_state": rnd,
-            "penalty": "l2",
-            "max_iter": 100,
-            "C": 1.0,
-        }
-        f = LogisticRegression(**params)
-        f.fit(X_train, y_train)
-        vali_acc = f.score(X_vali, y_vali)
-        result = ExperimentResult(vali_acc, params, f)
-        performances.append(result)
+      for maxiter in range(100, 500, 50):
+        for cval in range(1,7):
+          params = {
+              "random_state": rnd,
+              "penalty": "l2",
+              "max_iter": 100, 
+              "C": 0.2 * cval,
+          }
+          f = LogisticRegression(**params)
+          f.fit(X_train, y_train)
+          vali_acc = f.score(X_vali, y_vali)
+          result = ExperimentResult(vali_acc, params, f)
+          performances.append(result)
 
     return max(performances, key=lambda result: result.vali_acc)
 
@@ -189,8 +191,15 @@ simple_boxplot(
     save="model-cmp.png",
 )
 
-TODO("1. Understand consider_decision_trees; I have 'tuned' it.")
-TODO("2. Find appropriate max_iter settings to stop warning messages.")
-TODO(
-    "3. Pick a model: {perceptron, logistic regression, neural_network} and optimize it!"
-)
+#TODO("1. Understand consider_decision_trees; I have 'tuned' it.")
+# rnd for random_state: rndranges from 0-2
+# crit for criterion: one iteration using the criterion value "entropy"
+# d for depth: loops through depth values 1-8
+# consider_decision_trees uses performances list to store results of combinations of above params
+# and returns the set of params with the highest score (to feed into the bootstrap funciton)
+#TODO("2. Find appropriate max_iter settings to stop warning messages.")
+#TODO("3. Pick a model: {perceptron, logistic regression, neural_network} and optimize it!")
+
+# tried to optimize logistic regression!
+# entire boxplot moved up around 0.02, making it slightly better than the unoptimized Perceptron
+# I tried messing around with the other parameters, ex. class_weight but it didn't seem to change much
