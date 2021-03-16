@@ -71,6 +71,12 @@ def dataset_local_path(name: str) -> str:
         __download_file(
             "http://ciir.cs.umass.edu/downloads/poetry/id_datasets.jsonl", destination
         )
+    elif name == "tiny-wiki.jsonl.gz":
+        __download_file("http://static.jjfoley.me/tiny-wiki.jsonl.gz", destination
+        )
+    elif name == "tiny-wiki-labels.jsonl":
+        __download_file("http://static.jjfoley.me/tiny-wiki-labels.jsonl", destination
+        )
     else:
         raise ValueError("No such dataset... {}; should you git pull?".format(name))
     assert os.path.exists(destination)

@@ -65,6 +65,22 @@ joined_data: Dict[str, JoinedWikiData] = {}
 
 
 # TODO("1. create a list of JoinedWikiData from the ``pages`` and ``labels`` lists.")
+
+labels_by_id: Dict[str, JustWikiLabel] = {}
+for label in labels:
+  labels_by_id[label.wiki_id] = label
+
+for page in pages:
+  if page.wiki_id not in labels_by_id:
+    print("missing label for page: ", page.wiki_id)
+    continue
+  label_for_page = labels_by_id[page.wiki_id]
+  full_row = JoinedWikiData (
+    page.wiki_id, label_for_page.is_literary, page.title, page.body
+  )
+  joined_data[full_row.wiki_id] = full_row
+
+
 # This challenge has some very short solutions, so it's more conceptual. If you're stuck after ~10-20 minutes of thinking, ask!
 ############### Problem 1 ends here ###############
 
