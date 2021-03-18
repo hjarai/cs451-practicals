@@ -139,6 +139,7 @@ def consider_logistic_regression() -> ExperimentResult:
           result = ExperimentResult(vali_acc, params, f)
           performances.append(result)
 
+
     return max(performances, key=lambda result: result.vali_acc)
 
 

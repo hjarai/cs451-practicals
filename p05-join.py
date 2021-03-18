@@ -81,6 +81,7 @@ for page in pages:
   joined_data[full_row.wiki_id] = full_row
 
 
+
 # This challenge has some very short solutions, so it's more conceptual. If you're stuck after ~10-20 minutes of thinking, ask!
 ############### Problem 1 ends here ###############
 
@@ -145,6 +146,7 @@ models = {
     "Perceptron": Perceptron(),
     "LogisticRegression": LogisticRegression(),
     "DTree": DecisionTreeClassifier(),
+
     "RandomForest": RandomForestClassifier(),
 }
 
