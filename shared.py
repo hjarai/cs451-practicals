@@ -2,20 +2,10 @@
 import os
 import urllib.request
 import sys
-<<<<<<< HEAD
-import typing
-=======
->>>>>>> d929753891df78ee3a2ff98750b34a8ac31c144b
 from typing import List, Dict, Optional, Any
 
 from sklearn.base import ClassifierMixin
 from sklearn.utils import resample
-<<<<<<< HEAD
-from sklearn.metrics import accuracy_score
-import random
-
-
-=======
 from sklearn.metrics import accuracy_score, roc_auc_score
 import random
 
@@ -48,7 +38,6 @@ def bootstrap_auc(
     return dist
 
 
->>>>>>> d929753891df78ee3a2ff98750b34a8ac31c144b
 def bootstrap_accuracy(
     f: ClassifierMixin,
     X,  # numpy array
@@ -109,21 +98,12 @@ def dataset_local_path(name: str) -> str:
         __download_file(
             "http://ciir.cs.umass.edu/downloads/poetry/id_datasets.jsonl", destination
         )
-<<<<<<< HEAD
-    elif name == "tiny-wiki.jsonl.gz":
-        __download_file("http://static.jjfoley.me/tiny-wiki.jsonl.gz", destination
-        )
-    elif name == "tiny-wiki-labels.jsonl":
-        __download_file("http://static.jjfoley.me/tiny-wiki-labels.jsonl", destination
-        )
-=======
     elif name in [
         "lit-wiki-2020.jsonl.gz",
         "tiny-wiki.jsonl.gz",
         "tiny-wiki-labels.jsonl",
     ]:
         __download_file("http://static.jjfoley.me/{}".format(name), destination)
->>>>>>> d929753891df78ee3a2ff98750b34a8ac31c144b
     else:
         raise ValueError("No such dataset... {}; should you git pull?".format(name))
     assert os.path.exists(destination)
@@ -179,37 +159,6 @@ def test_download_poetry():
         assert first["book"] == "aceptadaoficialmente00gubirich"
 
 
-<<<<<<< HEAD
-def simple_boxplot(
-    data: Dict[str, List[float]],
-    title: Optional[str] = None,
-    xlabel: Optional[str] = None,
-    ylabel: Optional[str] = None,
-    show: bool = True,
-    save: Optional[str] = None,
-) -> Any:
-    """ Create a simple set of named boxplots. """
-    import matplotlib.pyplot as plt
-
-    box_names = []
-    box_dists = []
-    for (k, v) in data.items():
-        box_names.append(k)
-        box_dists.append(v)
-    plt.boxplot(box_dists)
-    plt.xticks(ticks=range(1, len(box_names) + 1), labels=box_names)
-    if title:
-        plt.title(title)
-    if xlabel:
-        plt.xlabel(xlabel)
-    if ylabel:
-        plt.ylabel(ylabel)
-    if save:
-        plt.savefig(save)
-    if show:
-        plt.show()
-    return plt
-=======
 def test_download_wiki():
     import json
 
@@ -217,4 +166,3 @@ def test_download_wiki():
     with open(lpath) as fp:
         first = json.loads(next(fp))
         print(first)
->>>>>>> d929753891df78ee3a2ff98750b34a8ac31c144b
