@@ -136,13 +136,16 @@ X_test = word_to_column.transform(ex_test)
 print("Ready to Learn!")
 from sklearn.linear_model import LogisticRegression, SGDClassifier, Perceptron
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import roc_auc_score
+
 
 models = {
     "SGDClassifier": SGDClassifier(),
     "Perceptron": Perceptron(),
     "LogisticRegression": LogisticRegression(),
     "DTree": DecisionTreeClassifier(),
+    "RandomForest": RandomForestClassifier(),
 }
 
 for name, m in models.items():
@@ -171,9 +174,10 @@ DTree:
         Vali-Acc: 0.739
         Vali-AUC: 0.71
 """
-TODO("2. Explore why DecisionTrees are not beating linear models. Answer one of:")
+#TODO("2. Explore why DecisionTrees are not beating linear models. Answer one of:")
 TODO("2.A. Is it a bad depth?")
-TODO("2.B. Do Random Forests do better?")
+#TODO("2.B. Do Random Forests do better?")
+# only slightly?
 TODO(
     "2.C. Is it randomness? Use simple_boxplot and bootstrap_auc/bootstrap_acc to see if the differences are meaningful!"
 )
