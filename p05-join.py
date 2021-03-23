@@ -145,7 +145,7 @@ models = {
     "SGDClassifier": SGDClassifier(),
     "Perceptron": Perceptron(),
     "LogisticRegression": LogisticRegression(),
-    "DTree": DecisionTreeClassifier(),
+    "DTree": DecisionTreeClassifier(max_depth= 4),
 
     "RandomForest": RandomForestClassifier(),
 }
@@ -177,7 +177,8 @@ DTree:
         Vali-AUC: 0.71
 """
 #TODO("2. Explore why DecisionTrees are not beating linear models. Answer one of:")
-TODO("2.A. Is it a bad depth?")
+#TODO("2.A. Is it a bad depth?")
+#
 #TODO("2.B. Do Random Forests do better?")
 # only slightly?
 TODO(
