@@ -145,8 +145,7 @@ models = {
     "SGDClassifier": SGDClassifier(),
     "Perceptron": Perceptron(),
     "LogisticRegression": LogisticRegression(),
-    "DTree": DecisionTreeClassifier(max_depth= 4),
-
+    "DTree": DecisionTreeClassifier(max_depth= 5),
     "RandomForest": RandomForestClassifier(),
 }
 
@@ -178,9 +177,32 @@ DTree:
 """
 #TODO("2. Explore why DecisionTrees are not beating linear models. Answer one of:")
 #TODO("2.A. Is it a bad depth?")
-#
+# using max-depth 5,  the scores changed from 
+# DTree:
+#         Vali-Acc: 0.739
+#         Vali-AUC: 0.71
+# to 
+# DTree5:
+#         Vali-Acc: 0.763
+#         Vali-AUC: 0.723
+
 #TODO("2.B. Do Random Forests do better?")
-# only slightly?
+# only slightly? seems about the same as the linear models
+# SGDClassifier:
+#         Vali-Acc: 0.842
+#         Vali-AUC: 0.884
+# Perceptron:
+#         Vali-Acc: 0.815
+#         Vali-AUC: 0.844
+# LogisticRegression:
+#         Vali-Acc: 0.788
+#         Vali-AUC: 0.88
+# DTree:
+#        Vali-Acc: 0.759
+#        Vali-AUC: 0.715
+# RandomForest:
+#         Vali-Acc: 0.829
+#         Vali-AUC: 0.874
 TODO(
     "2.C. Is it randomness? Use simple_boxplot and bootstrap_auc/bootstrap_acc to see if the differences are meaningful!"
 )
