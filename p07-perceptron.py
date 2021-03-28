@@ -64,11 +64,20 @@ rX_train, rX_vali, y_train, y_vali = train_test_split(
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 # TODO: Exploration 2: What normalization is best for your models?
+# Comparing the perceptron-curve graphs, min-max scaling seems to do slightly better than variance, 
+# and both do significantly better than no normalization.
+# For MLP, variance is the clear winner, with max-scaling beating no scaling mostly because of the consistency 
+# (there's more spread for no scaling)
+# For skperceptron, it's no scaling that produces the most concentrated results, though variance normalization 
+# produces the overall higher values
 # THINK: Why didn't we normalize for decision trees?
+# decision tress don't change in performance, no matter the scaling... is it because each decison happens on one axis, at one point,
+# so the whether that one float is large or small is irrelevant?
 #
 # These are the three approaches to scaling I see in practice: variance / standard-deviation, min/max, nothing.
 # This replaces the X / 1000 hack we did a few weeks ago.
-norm = "max"
+print("input norm type (var/max/none):", end=' ')
+norm = input()
 if norm == "var":
     scale = StandardScaler()
     X_train = scale.fit_transform(rX_train)
@@ -263,10 +272,11 @@ sgdc = SGDClassifier()
 for key, dataset in learning_curves.items():
     xs = np.array(list(range(len(dataset.train))))
     # line-plot:
-    plt.plot(xs, dataset.train, label="{} Train".format(key), alpha=0.7)
-    plt.plot(xs, dataset.validation, label="{} Validate".format(key), alpha=0.7)
+    # plt.plot(xs, dataset.train, label="{} Train".format(key), alpha=0.7)
+    # plt.plot(xs, dataset.validation, label="{} Validate".format(key), alpha=0.7)
     # scatter-plot: (maybe these look nicer to you?)
-    # plt.scatter(xs, points, label=key, alpha=0.7, marker=".")
+    plt.scatter(xs, dataset.train, label=key, alpha=0.7, marker=".")
+    plt.scatter(xs, dataset.validation, label=key, alpha=0.7, marker=".")
     plt.ylim((0.75, 1.0))
     plt.title("{} Learning Curves [norm={}]".format(key, norm))
     plt.xlabel("Iteration")
