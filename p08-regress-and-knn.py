@@ -96,6 +96,20 @@ print(m.score(X_vali, y_vali))
 #    - Try at least one, plot a (y_pred, y_actual) scatter plot (e.g., visualize correlation / R**2)
 #    - [Difficult] see the brute-force kNN below, try to refactor the loops out of python.
 
+
+o = MLPRegressor()
+o.fit(X_train, y_train)
+print("MLP", o.score(X_vali, y_vali))
+
+p = SGDRegressor()
+p.fit(X_train, y_train)
+print("sdg", p.score(X_vali, y_vali))
+
+q= DecisionTreeRegressor()
+q.fit(X_train, y_train)
+print("decison", q.score(X_vali, y_vali))
+
+
 # %% kNN Brute Force Below:
 # Note, this is really slow (see progress bar!)
 
