@@ -4,6 +4,7 @@ import numpy as np
 from scipy.spatial.distance import euclidean
 from typing import List, Tuple
 from tqdm import tqdm
+import matplotlib.pyplot as plt
 
 import csv
 
@@ -33,8 +34,13 @@ with open(dataset_local_path("AirQualityUCI.csv")) as fp:
             elif column_name == "Time":
                 time = column_value
             else:
-                datapoint[column_name] = float(column_value.replace(",", "."))
+                as_float = float(column_value.replace(",", "."))
+                if as_float == -200:
+                    continue
+                datapoint[column_name] = as_float
         if not datapoint:
+            continue
+        if "CO(GT)" not in datapoint:
             continue
         target = datapoint["CO(GT)"]
         del datapoint["CO(GT)"]
@@ -87,6 +93,14 @@ m.fit(X_train, y_train)
 
 print(m.score(X_vali, y_vali))
 
+# line-plot:
+plt.scatter(y_vali, m.predict(X_vali))
+plt.title("K neighbors")
+plt.xlabel("y-vali")
+plt.ylabel("x-vali")
+plt.tight_layout()
+plt.show()
+
 ## Lab TODO:
 # Mandatory:
 # - Try some other regression models.
@@ -97,18 +111,42 @@ print(m.score(X_vali, y_vali))
 #    - [Difficult] see the brute-force kNN below, try to refactor the loops out of python.
 
 
-o = MLPRegressor()
+o = MLPRegressor(max_iter=10000)
 o.fit(X_train, y_train)
 print("MLP", o.score(X_vali, y_vali))
+# line-plot:
+plt.scatter(y_vali, o.predict(X_vali))
+plt.title("mlp")
+plt.xlabel("y-vali")
+plt.ylabel("x-vali")
+plt.tight_layout()
+plt.show()
 
 p = SGDRegressor()
 p.fit(X_train, y_train)
 print("sdg", p.score(X_vali, y_vali))
+# line-plot:
+plt.scatter(y_vali, p.predict(X_vali))
+plt.title("regressor")
+plt.xlabel("y-vali")
+plt.ylabel("x-vali")
+plt.tight_layout()
+plt.show()
 
-q= DecisionTreeRegressor()
+q= DecisionTreeRegressor(max_depth=5)
 q.fit(X_train, y_train)
 print("decison", q.score(X_vali, y_vali))
+# line-plot:
+plt.scatter(y_vali, q.predict(X_vali))
+plt.title("decision tree")
+plt.xlabel("y-vali")
+plt.ylabel("x-vali")
+plt.tight_layout()
+plt.show()
 
+
+# this is bad coding practice, i should be creating the models and plotting them in a loop
+# seeing that the decision tree is still "categorizing" in the scatter plot is cool
 
 # %% kNN Brute Force Below:
 # Note, this is really slow (see progress bar!)
